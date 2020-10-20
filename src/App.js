@@ -1,54 +1,59 @@
-import React, { useEffect, useState } from "react";
-import TaskForm from "./component/TaskFrom";
-import TaskList from "./component/TaskList";
-import "./styles.css";
+import React, {useState} from 'react';
+import PropTypes from 'prop-types';
+import PetForm from './component/PetForm';
+import PetList from './component/PetList';
+import "./styles.css"
 
-export default function App() {
-  const initialTask = [
-    {
-      id: "1",
-      name: "milu",
-      species: "Whale",
-      age: 12
-    },
-    {
-      id: "2",
-      name: "mila",
-      species: "Shark",
-      age: 121
-    },
-    {
-      id: "3",
-      name: "mike",
-      species: "Whale",
-      age: 50
-    }
-  ];
-  const [tasks, setTasks] = useState(initialTask);
+App.propTypes = {
+  
+};
 
-  const _onHandleSubmit = (data) => {
-    var arrTask = tasks;
-    arrTask.push(data);
-    setTasks(arrTask);
-  };
+const initialPet = [
+  {
+    id: 1,
+    name: "haha",
+    species: "dog",
+    age: 18,
+  },
+  {
+    id: 2,
+    name: "memeo",
+    species: "cat",
+    age: 20,
+  },
+  {
+    id: 3,
+    name: "miluaaa",
+    species: "rabbit",
+    age: 30,
+  },
+]
 
-  const _onDelete = (index) => {
-    tasks.splice(index, 1);
-  };
+function App(props) {
+  console.log("App");
+  const [pets, setPets] = useState(initialPet);
 
-  const _onUpdate = (index) => {
+  function _handleDelete(pet){
+    const index = pets.findIndex(x => x.id === pet.id);
     console.log(index);
-  };
+    if(index < 0) return;
+    const newPets = [...pets];
+    newPets.splice(index,1);
+    setPets(newPets);
+  }
+
 
   return (
     <div className="App">
-      {console.log("render app")}
-      <div className="task-form">
-        <TaskForm setTasks={setTasks} />
-      </div>
-      <div className="task-list">
-        <TaskList tasks={tasks} onDelete={_onDelete} onUpdate={_onUpdate} />
-      </div>
+    {console.log("render app")}
+    <div className="task-form">
+      <PetForm />
     </div>
+    <div className="task-list">
+      <PetList pets={pets} onDelete={_handleDelete} />
+    </div>
+  </div>
   );
 }
+
+export default App;
